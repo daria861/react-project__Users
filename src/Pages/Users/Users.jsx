@@ -1,5 +1,8 @@
 import Button from '@mui/joy/Button';
 import './Users.css'
+import { Link } from 'react-router-dom';
+import { CreateUserModal } from '../../components/CreateUserModal/CreateUserModal';
+import { useState } from 'react';
 
 const users = [
     {
@@ -28,7 +31,10 @@ const users = [
     }
 ]
 
-export default function Users() {
+export default function Users({ setIsOpenFunc }) {
+
+    const [isOpen, setIsOpen] = useState(false)
+
     return (
         <div className="container">
             <table>
@@ -45,22 +51,25 @@ export default function Users() {
 
                 <tbody>
 
-                    {users.map(user =>(
-                    <tr key={user.id}>
-                        <td>{user.id}</td>
-                        <td>{user.name}</td>
-                        <td>{user.password}</td>
-                        <td>{user.email}</td>
-                        <td><a href="#">View profile</a></td>
-                        <td><Button size="sm" color="danger">x</Button></td>
-                    </tr>
+                    {users.map(user => (
+                        <tr key={user.id}>
+                            <td>{user.id}</td>
+                            <td>{user.name}</td>
+                            <td>{user.password}</td>
+                            <td>{user.email}</td>
+                            <td><Link to='userId'>View profile</Link></td>
+                            <td><Button size="sm" color="danger">x</Button></td>
+                        </tr>
                     ))}
-                    
+
+
                 </tbody>
             </table>
             <div className="nav-block">
-                <button>Create a new User</button>
+                <button onClick={() => setIsOpen(true)}>Create a new User</button>
             </div>
+            {isOpen && <CreateUserModal setIsOpenFunc={setIsOpen} />}
         </div>
+
     )
 }
